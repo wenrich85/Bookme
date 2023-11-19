@@ -25,6 +25,10 @@ alias Bookme.Runtime.BookmeRegistry
     GenServer.call(schedule_server_name(name), {:show_available_appointments, appointment})
   end
 
+  def schedule_created?(name, date) do
+    GenServer.call(schedule_server_name(name), {:schedule_exists?, date})
+  end
+
   defp schedule_server_name(name) do
     BookmeRegistry.via_tuple({Bookme.Runtime.BookmeServer, name})
   end

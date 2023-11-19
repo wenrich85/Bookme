@@ -37,6 +37,10 @@ defmodule Bookme.Runtime.BookmeServer do
     {:reply, times, schedules}
   end
 
+  def handle_call({:schedule_exists?, date}, _from, schedules) do
+    {:reply, Map.has_key?(schedules, get_week_string(date)), schedules}
+  end
+
   defp create_week_or_add_schedule(schedules, schedule) do
     week = get_week_string(schedule.date)
     if Map.has_key?(schedules, week) do
