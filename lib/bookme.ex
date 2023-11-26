@@ -29,7 +29,16 @@ alias Bookme.Runtime.BookmeRegistry
     GenServer.call(schedule_server_name(name), {:schedule_exists?, date})
   end
 
+  def find_booking_server(name) do
+    Registry.lookup(BookmeRegistry, {Bookme.Runtime.BookmeServer, name})
+    |> exists?()
+  end
+
+
   defp schedule_server_name(name) do
     BookmeRegistry.via_tuple({Bookme.Runtime.BookmeServer, name})
   end
+
+  defp exists?([{_pid, _}]), do: true
+  defp exists?([]), do: false
 end
